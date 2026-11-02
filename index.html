@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARD SAS | Party & Event Boutique | Gadget e Allestimenti Esclusivi</title>
+  <meta name="description" content="CARD SAS: La boutique esclusiva per feste, eventi a tema Harry Potter e Star Wars, addio al nubilato e compleanni d'autore. Scopri le nostre Party Box personalizzate.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-content">
+      <span>🎉 <strong>SPEDIZIONE GRATUITA</strong> in tutta Italia per ordini superiori a 65€</span>
+      <span class="announcement-divider">•</span>
+      <span>🪄 Gadget Ufficiali Harry Potter & Party Box</span>
+      <span class="announcement-divider">•</span>
+      <span>🎁 Consegna rapida in 24/48h</span>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="main-header" id="mainHeader">
+    <div class="header-container">
+      <div class="header-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Apri menu">
+          <span></span><span></span><span></span>
+        </button>
+        <a href="#" class="brand-link">
+          <img src="assets/logo.jpg?v=4" alt="CARD SAS Party Boutique Logo" class="brand-logo-img">
+          <div class="brand-text">
+            <strong>CARD SAS</strong>
+            <span>Party & Gift Boutique</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#collezioni" class="nav-link active" onclick="setCategoryFilter('all')">🎈 Tutti i Gadget</a>
+        <a href="#collezioni" class="nav-link" onclick="setCategoryFilter('harry-potter')">🪄 Harry Potter</a>
+        <a href="#collezioni" class="nav-link" onclick="setCategoryFilter('star-wars')">🌌 Star Wars</a>
+        <a href="#collezioni" class="nav-link" onclick="setCategoryFilter('party-trend')">🥂 Feste & Party</a>
+        <a href="#chi-siamo" class="nav-link">Chi Siamo</a>
+        <a href="#contatti" class="nav-link">Contatti</a>
+      </nav>
+
+      <div class="header-right">
+        <div class="search-wrap">
+          <input type="text" id="searchInput" placeholder="Cerca tazza, Dobby, festa..." aria-label="Cerca">
+          <button id="searchBtn" aria-label="Cerca nel negozio">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </div>
+
+        <button class="icon-btn wishlist-btn" id="wishlistTriggerBtn" aria-label="Preferiti">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="counter-badge" id="wishlistCount">0</span>
+        </button>
+
+        <button class="icon-btn cart-btn" id="cartTriggerBtn" aria-label="Carrello">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="counter-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="heroSection">
+    <div class="hero-confetti-bg" aria-hidden="true">
+      <span class="confetti-dot c1"></span>
+      <span class="confetti-dot c2"></span>
+      <span class="confetti-dot c3"></span>
+      <span class="confetti-dot c4"></span>
+      <span class="confetti-dot c5"></span>
+      <span class="confetti-dot c6"></span>
+    </div>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span class="sparkle">🎈</span> Benvenuti nella Boutique delle Feste & dei Regali
+        </div>
+        <h1 class="hero-title">
+          Porta un Pizzico di <span class="gradient-text">Magia & Allegria</span> in Ogni Festa!
+        </h1>
+        <p class="hero-subtitle">
+          Dai nuovi arrivi ufficiali <strong>Harry Potter</strong> (tazze, set regalo Dobby, cancelleria Hogwarts) ai kit esclusivi per compleanni, lauree e addio al nubilato. Scegli i tuoi preferiti e ricevili a casa in 24/48h!
+        </p>
+
+        <div class="hero-actions">
+          <a href="#collezioni" class="btn btn-primary">
+            <span>Scopri Tutti i Gadget</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="https://wa.me/393456789012?text=Ciao%20CARD%20SAS!%20Vorrei%20informazioni%20sui%20gadget%20e%20articoli%20festa" target="_blank" class="btn btn-secondary">
+            <span>💬 Chiedi su WhatsApp</span>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Licenze Ufficiali</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">24/48h</div>
+            <div class="stat-label">Consegna Veloce</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">Spedizione</div>
+            <div class="stat-label">Gratuita da 65€</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-showcase">
+        <div class="showcase-main-card" onclick="openQuickView('hp-dobby-set')">
+          <span class="showcase-tag">🎁 Idea Regalo Top</span>
+          <img src="assets/products/harry-potter-dobby-set.png" alt="Set Regalo Dobby Harry Potter">
+          <div class="showcase-card-info">
+            <div>
+              <small>Harry Potter Ufficiale</small>
+              <strong>Set Regalo "Dobby" Tazza + Calzini</strong>
+            </div>
+            <span class="showcase-price">15,90 €</span>
+          </div>
+        </div>
+
+        <div class="showcase-floating-card card-top-right" onclick="openQuickView('hp-mug')">
+          <img src="assets/products/harry-potter-mug.png" alt="Tazza Harry Potter">
+          <div>
+            <strong>Mug Hogwarts</strong>
+            <span>9,90 €</span>
+          </div>
+        </div>
+
+        <div class="showcase-floating-card card-bottom-left" onclick="openQuickView('hp-stationery-bag')">
+          <img src="assets/products/harry-potter-stationery-bag.png" alt="Set Cancelleria Hogwarts">
+          <div>
+            <strong>Set Scuola 5pz</strong>
+            <span>6,90 €</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Showcase & Filter Section -->
+  <section class="catalog-section" id="collezioni">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="sub-heading">✨ Vetrina Esclusiva ✨</span>
+        <h2 class="section-title">Scegli il Tuo Tema Preferito</h2>
+        <p class="section-desc">Idee regalo originali, gadget da collezione e kit completi per rendere indimenticabile ogni occasione speciale.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-filters" id="categoryFilters">
+        <button class="filter-chip active" data-category="all">🎈 Tutti gli Articoli</button>
+        <button class="filter-chip" data-category="harry-potter">🧙‍♂️ Harry Potter Ufficiale</button>
+        <button class="filter-chip" data-category="star-wars">🌌 Star Wars</button>
+        <button class="filter-chip" data-category="party-trend">🎯 Party & Giochi</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Injected via JavaScript dynamically -->
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Best Sellers / Highlights Feature Section -->
+  <section class="highlights-section" id="best-sellers">
+    <div class="container">
+      <div class="highlight-grid">
+        <div class="highlight-card">
+          <div class="icon-circle">💎</div>
+          <h3>Materiali Selezionati</h3>
+          <p>Ogni gadget e accessorio viene scelto per resistenza, eleganza e impatto visivo. Niente articoli dozzinali.</p>
+        </div>
+        <div class="highlight-card">
+          <div class="icon-circle">🪄</div>
+          <h3>Licenze & Cult d'Autore</h3>
+          <p>Dettagli magici e fedeli per amanti di Harry Potter e saghe stellari, perfetti anche come pezzi da collezione.</p>
+        </div>
+        <div class="highlight-card">
+          <div class="icon-circle">🥂</div>
+          <h3>Esperienze Senza Pensieri</h3>
+          <p>Le nostre Party Box contengono tutto il necessario: apri il pacco e la tua festa è pronta per essere allestita.</p>
+        </div>
+        <div class="highlight-card">
+          <div class="icon-circle">💬</div>
+          <h3>Consulenza Personale</h3>
+          <p>Hai un'esigenza particolare o un numero insolito di invitati? Ti aiutiamo noi direttamente su WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="about-section" id="chi-siamo">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <span class="sub-heading">La Nostra Storia</span>
+          <h2 class="section-title">CARD SAS: La Passione per il Momento Perfetto</h2>
+          <p>
+            Da anni il nostro negozio è il punto di riferimento per chi desidera trasformare una ricorrenza in un ricordo indelebile. Compleanni, lauree, traguardi importanti, serate goliardiche e grandi passioni cinematografiche.
+          </p>
+          <p>
+            Oggi apriamo le porte del nostro catalogo online: abbiamo deciso di partire dalle nostre <strong>collezioni più amate ed iconiche</strong> per offrire a chiunque in Italia l'eleganza, la cura e la magia che da sempre ci contraddistinguono.
+          </p>
+          <div class="about-features">
+            <div class="feature-item">
+              <span class="check-icon">✓</span> Negozio reale con esperienza consolidata
+            </div>
+            <div class="feature-item">
+              <span class="check-icon">✓</span> Cura maniacale di imballaggio e spedizione
+            </div>
+            <div class="feature-item">
+              <span class="check-icon">✓</span> Massima flessibilità per ordini personalizzati
+            </div>
+          </div>
+        </div>
+        <div class="about-visual">
+          <div class="visual-card">
+            <img src="assets/products/harry-potter-deluxe.jpg" alt="Collezione Harry Potter Card SAS">
+            <div class="floating-badge">
+              <strong>CARD SAS</strong>
+              <span>Party Boutique Store</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter / CTA -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-card">
+        <span class="newsletter-badge">Club CARD SAS</span>
+        <h2>Ricevi il 10% di Sconto sul Tuo Primo Ordine</h2>
+        <p>Iscriviti per ricevere guide esclusive sull'organizzazione party, novità in anteprima e promozioni dedicate.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Inserisci la tua email..." required>
+          <button type="submit" class="btn btn-primary">Iscriviti</button>
+        </form>
+        <small class="privacy-note">Nessun spam. Puoi disiscriverti in ogni momento con un clic.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer" id="contatti">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col brand-col">
+          <img src="assets/logo.jpg?v=4" alt="CARD SAS" class="footer-logo">
+          <p>
+            <strong>CARD SAS</strong> - La tua Party Boutique di fiducia. Articoli per feste a tema, allestimenti esclusivi, gadget cult e ricorrenze indimenticabili.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram">Instagram</a>
+            <a href="#" aria-label="Facebook">Facebook</a>
+            <a href="#" aria-label="TikTok">TikTok</a>
+            <a href="#" aria-label="Pinterest">Pinterest</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Collezioni</h4>
+          <ul>
+            <li><a href="#collezioni">Harry Potter Ufficiale</a></li>
+            <li><a href="#collezioni">Tazze & Mug Colazione</a></li>
+            <li><a href="#collezioni">Set Regalo & Confezioni</a></li>
+            <li><a href="#collezioni">Cancelleria Hogwarts</a></li>
+            <li><a href="#collezioni">Star Wars & Fandom</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Assistenza & Ordini</h4>
+          <ul>
+            <li><a href="#">Spedizioni Rapide 24/48h</a></li>
+            <li><a href="#">Spedizione Gratuita da 65€</a></li>
+            <li><a href="#">Resi e Rimborsi Facili</a></li>
+            <li><a href="https://wa.me/393456789012" target="_blank">Ordina Direttamente su WhatsApp</a></li>
+            <li><a href="#">FAQ Frequenti</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contatti Diretti</h4>
+          <p>📍 Sede e Negozio Fisico: CARD SAS</p>
+          <p>📞 Telefono: +39 02 8900 1234</p>
+          <p>💬 WhatsApp Ordini: +39 345 678 9012</p>
+          <p>✉️ Email: info@cardsasparty.it</p>
+          <div class="payment-badges">
+            <span>Visa</span>
+            <span>Mastercard</span>
+            <span>PayPal</span>
+            <span>Apple Pay</span>
+            <span>Klarna</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 CARD SAS di Cinzia Policastri & C. - P.IVA: 01234567890 - Tutti i diritti riservati.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Termini di Vendita</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Quick View Modal -->
+  <div class="modal-overlay" id="quickViewModal">
+    <div class="modal-container">
+      <button class="modal-close-btn" id="closeModalBtn" aria-label="Chiudi finestra">&times;</button>
+      <div class="modal-body" id="modalProductDetails">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Wishlist Drawer -->
+  <div class="drawer-overlay" id="wishlistOverlay"></div>
+  <aside class="drawer" id="wishlistDrawer">
+    <div class="drawer-header">
+      <h3>I Tuoi Articoli Preferiti (<span id="wishlistDrawerCount">0</span>)</h3>
+      <button class="drawer-close-btn" id="closeWishlistBtn">&times;</button>
+    </div>
+    <div class="drawer-body" id="wishlistItemsList">
+      <!-- Injected via JS -->
+    </div>
+  </aside>
+
+  <!-- Cart Drawer -->
+  <div class="drawer-overlay" id="cartOverlay"></div>
+  <aside class="drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3>Il Tuo Carrello (<span id="cartDrawerCount">0</span>)</h3>
+      <button class="drawer-close-btn" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="free-shipping-tracker">
+      <div class="shipping-text" id="shippingTrackerText">Mancano 65,00 € alla Spedizione Gratuita!</div>
+      <div class="shipping-progress-bar">
+        <div class="progress-fill" id="shippingProgressFill" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="drawer-body" id="cartItemsList">
+      <!-- Injected via JS -->
+    </div>
+    <div class="drawer-footer" id="cartFooter">
+      <div class="cart-total-row">
+        <span>Totale Carrello:</span>
+        <strong id="cartSubtotal">0,00 €</strong>
+      </div>
+      <p class="cart-tax-notice">Tasse e spese di spedizione calcolate al checkout</p>
+      <button class="btn btn-primary btn-block" id="proceedCheckoutBtn">
+        Procedi all'Ordine Sicuro
+      </button>
+      <button class="btn btn-whatsapp btn-block" id="checkoutWhatsAppBtn">
+        Invia Carrello via WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <!-- Floating WhatsApp Quick Button -->
+  <a href="https://wa.me/393456789012?text=Ciao%20CARD%20SAS!%20Vorrei%20informazioni%20sugli%20articoli%20feste" target="_blank" class="floating-whatsapp" aria-label="Contattaci su WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41a8.214 8.214 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.09-.17.04-.32-.02-.45s-.56-1.36-.77-1.86c-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.22.89 2.41 1.02 2.58.13.17 1.75 2.68 4.25 3.75.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.48-.6 1.69-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+  </a>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js?v=7"></script>
+</body>
+</html>

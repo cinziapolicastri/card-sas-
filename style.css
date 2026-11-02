@@ -1067,7 +1067,9 @@ h1, h2, h3, h4 {
    =================================================================== */
 .about-section {
   padding: 6rem 0;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card);
 }
 
 .about-grid {

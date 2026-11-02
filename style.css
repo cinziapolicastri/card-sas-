@@ -288,17 +288,15 @@ h1, h2, h3, h4 {
 }
 
 .brand-logo-img {
-  height: 58px;
-  width: 58px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1.5px solid var(--accent-gold-border);
-  box-shadow: 0 4px 14px rgba(54, 46, 50, 0.08);
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 12px;
   transition: var(--transition);
 }
 
 .brand-link:hover .brand-logo-img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .brand-text {
@@ -1308,11 +1306,10 @@ h1, h2, h3, h4 {
 }
 
 .footer-logo {
-  height: 52px;
+  height: 68px;
   width: auto;
   margin-bottom: 1.1rem;
   border-radius: 10px;
-  border: 1.5px solid var(--accent-gold);
 }
 
 .brand-col p {

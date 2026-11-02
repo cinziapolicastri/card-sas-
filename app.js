@@ -577,26 +577,262 @@ function closeWishlistDrawer() {
 }
 
 // ===================================================================
-// Checkout Modal Feedback
+// Checkout System (Indirizzo di Consegna + Carta / PayPal / Apple Pay / Google Pay)
 // ===================================================================
+// Configurazione Pagamenti Reali: inserisci qui la tua email PayPal Business
+// o il tuo link Stripe Checkout quando vuoi attivare l'incasso diretto sul conto.
+const PAYMENT_CONFIG = {
+  paypalBusinessEmail: "", // es. "pagamenti@cardsasparty.it"
+  stripePaymentLink: "",   // es. "https://buy.stripe.com/..."
+  shippingFee: 6.90
+};
+
+let currentPaymentMethod = "card";
+let checkoutFormTemplate = "";
+
+function getCheckoutTotals() {
+  const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const shipping = subtotal >= state.freeShippingThreshold ? 0 : PAYMENT_CONFIG.shippingFee;
+  const total = subtotal + shipping;
+  return { subtotal, shipping, total };
+}
+
+function updatePayButtonLabel() {
+  const submitBtn = document.getElementById("submitPaymentBtn");
+  if (!submitBtn) return;
+  const { total } = getCheckoutTotals();
+  const formattedTotal = formatPrice(total);
+
+  const labels = {
+    "card": `🔒 Paga Ora con Carta • ${formattedTotal}`,
+    "paypal": `🅿️ Paga con PayPal • ${formattedTotal}`,
+    "apple-pay": ` Paga con Apple Pay • ${formattedTotal}`,
+    "google-pay": `🤖 Paga con Google Pay • ${formattedTotal}`
+  };
+  submitBtn.textContent = labels[currentPaymentMethod] || `🔒 Paga Ora • ${formattedTotal}`;
+}
+
+function openCheckoutModal() {
+  if (state.cart.length === 0) {
+    showToast("Il tuo carrello è vuoto!", "⚠️");
+    return;
+  }
+
+  closeCartDrawer();
+
+  const modal = document.getElementById("checkoutModal");
+  const body = document.getElementById("checkoutModalBody");
+  if (!checkoutFormTemplate && body) {
+    checkoutFormTemplate = body.innerHTML;
+  } else if (checkoutFormTemplate && body && !document.getElementById("checkoutForm")) {
+    body.innerHTML = checkoutFormTemplate;
+    bindCheckoutFormEvents();
+  }
+
+  renderCheckoutSummary();
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCheckoutModal() {
+  const modal = document.getElementById("checkoutModal");
+  if (modal) modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function renderCheckoutSummary() {
+  const listEl = document.getElementById("checkoutSummaryItems");
+  const subEl = document.getElementById("checkoutSubtotal");
+  const shipEl = document.getElementById("checkoutShipping");
+  const totEl = document.getElementById("checkoutTotal");
+
+  if (!listEl) return;
+
+  const { subtotal, shipping, total } = getCheckoutTotals();
+
+  listEl.innerHTML = state.cart.map(item => `
+    <div class="checkout-item-row">
+      <img src="${item.image}" alt="${item.name}">
+      <div class="checkout-item-title">
+        <strong>${item.name}</strong>
+        <span>Quantità: ${item.quantity}</span>
+      </div>
+      <div class="checkout-item-price">${formatPrice(item.price * item.quantity)}</div>
+    </div>
+  `).join("");
+
+  if (subEl) subEl.textContent = formatPrice(subtotal);
+  if (shipEl) shipEl.innerHTML = shipping === 0 ? `<strong style="color: var(--whatsapp-green);">GRATUITA</strong>` : formatPrice(shipping);
+  if (totEl) totEl.textContent = formatPrice(total);
+
+  updatePayButtonLabel();
+}
+
+function bindCheckoutFormEvents() {
+  const tabsContainer = document.getElementById("paymentMethodsTabs");
+  if (tabsContainer) {
+    tabsContainer.addEventListener("click", (e) => {
+      const tab = e.target.closest(".payment-tab");
+      if (!tab) return;
+
+      currentPaymentMethod = tab.dataset.method;
+      tabsContainer.querySelectorAll(".payment-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const radio = tab.querySelector("input[type='radio']");
+      if (radio) radio.checked = true;
+
+      document.querySelectorAll(".payment-panel").forEach(p => p.classList.remove("active"));
+      const activePanel = document.getElementById(`panel-${currentPaymentMethod}`);
+      if (activePanel) activePanel.classList.add("active");
+
+      updatePayButtonLabel();
+    });
+  }
+
+  // Formattazione automatica numero carta e scadenza
+  const cardNumberInput = document.getElementById("cardNumber");
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener("input", (e) => {
+      let digits = e.target.value.replace(/\D/g, "").slice(0, 16);
+      e.target.value = digits.replace(/(.{4})/g, "$1 ").trim();
+    });
+  }
+
+  const cardExpiryInput = document.getElementById("cardExpiry");
+  if (cardExpiryInput) {
+    cardExpiryInput.addEventListener("input", (e) => {
+      let digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+      if (digits.length >= 3) {
+        e.target.value = digits.slice(0, 2) + "/" + digits.slice(2);
+      } else {
+        e.target.value = digits;
+      }
+    });
+  }
+
+  const form = document.getElementById("checkoutForm");
+  if (form) {
+    form.addEventListener("submit", handleCheckoutSubmit);
+  }
+}
+
+function handleCheckoutSubmit(e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById("shipFirstName").value.trim();
+  const lastName = document.getElementById("shipLastName").value.trim();
+  const email = document.getElementById("shipEmail").value.trim();
+  const phone = document.getElementById("shipPhone").value.trim();
+  const address = document.getElementById("shipAddress").value.trim();
+  const city = document.getElementById("shipCity").value.trim();
+  const province = document.getElementById("shipProvince").value.trim().toUpperCase();
+  const zip = document.getElementById("shipZip").value.trim();
+  const notes = document.getElementById("shipNotes").value.trim();
+
+  if (currentPaymentMethod === "card") {
+    const cardName = document.getElementById("cardName").value.trim();
+    const cardNumber = document.getElementById("cardNumber").value.replace(/\s+/g, "");
+    const cardExpiry = document.getElementById("cardExpiry").value.trim();
+    const cardCvc = document.getElementById("cardCvc").value.trim();
+
+    if (!cardName || cardNumber.length < 13 || cardExpiry.length < 4 || cardCvc.length < 3) {
+      showToast("Compila correttamente tutti i dati della carta", "⚠️");
+      return;
+    }
+  }
+
+  const { subtotal, shipping, total } = getCheckoutTotals();
+  const orderId = "CARD-" + Math.floor(100000 + Math.random() * 900000);
+  const methodLabels = {
+    "card": "Carta di Credito / Debito",
+    "paypal": "PayPal",
+    "apple-pay": "Apple Pay",
+    "google-pay": "Google Pay"
+  };
+
+  // Se è configurata l'email PayPal Business e l'utente sceglie PayPal, apre il gateway reale PayPal
+  if (currentPaymentMethod === "paypal" && PAYMENT_CONFIG.paypalBusinessEmail) {
+    const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(PAYMENT_CONFIG.paypalBusinessEmail)}&item_name=${encodeURIComponent("Ordine " + orderId + " - CARD SAS")}&amount=${total.toFixed(2)}&currency_code=EUR`;
+    window.open(paypalUrl, "_blank");
+  }
+
+  // Costruisce messaggio riepilogativo completo di indirizzo di consegna
+  const orderedItems = [...state.cart];
+  let waMessage = `*NUOVO ORDINE ${orderId} - CARD SAS*\n\n`;
+  waMessage += `*Prodotti Ordinati:*\n`;
+  orderedItems.forEach((item, idx) => {
+    waMessage += `${idx + 1}. ${item.name} (x${item.quantity}) - ${formatPrice(item.price * item.quantity)}\n`;
+  });
+  waMessage += `\n*Subtotale:* ${formatPrice(subtotal)}`;
+  waMessage += `\n*Spedizione:* ${shipping === 0 ? "GRATUITA" : formatPrice(shipping)}`;
+  waMessage += `\n*TOTALE PAGATO:* ${formatPrice(total)}`;
+  waMessage += `\n*Metodo di Pagamento:* ${methodLabels[currentPaymentMethod]}\n\n`;
+  waMessage += `*INDIRIZZO DI CONSEGNA:*\n`;
+  waMessage += `Destinatario: ${firstName} ${lastName}\n`;
+  waMessage += `Indirizzo: ${address}, ${zip} ${city} (${province})\n`;
+  waMessage += `Telefono: ${phone}\n`;
+  waMessage += `Email: ${email}\n`;
+  if (notes) waMessage += `Note: ${notes}\n`;
+
+  // Svuota carrello
+  state.cart = [];
+  saveCart();
+
+  // Mostra schermata di conferma ordine
+  const body = document.getElementById("checkoutModalBody");
+  body.innerHTML = `
+    <div class="order-success-box">
+      <div class="order-success-icon">✓</div>
+      <span class="sub-heading">Ordine Confermato #${orderId}</span>
+      <h2>Grazie per il tuo acquisto, ${firstName}!</h2>
+      <p style="color: var(--text-secondary); margin-top: 0.4rem;">
+        Il pagamento di <strong>${formatPrice(total)}</strong> tramite <strong>${methodLabels[currentPaymentMethod]}</strong> è stato registrato con successo.
+      </p>
+
+      <div class="order-recap-card">
+        <p><strong>📦 Spedizione prevista in 24/48h a:</strong></p>
+        <p>${firstName} ${lastName} — ${address}, ${zip} ${city} (${province})</p>
+        <p><strong>📞 Contatti corriere:</strong> ${phone} • ${email}</p>
+        ${notes ? `<p><strong>📝 Note:</strong> ${notes}</p>` : ""}
+      </div>
+
+      <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+        <a href="https://wa.me/393456789012?text=${encodeURIComponent(waMessage)}" target="_blank" class="btn btn-whatsapp">
+          📲 Invia Ricevuta e Indirizzo su WhatsApp
+        </a>
+        <button type="button" class="btn btn-secondary" onclick="closeCheckoutModal()">
+          Torna al Negozio
+        </button>
+      </div>
+    </div>
+  `;
+}
+
 function setupCheckout() {
   const proceedBtn = document.getElementById("proceedCheckoutBtn");
   const checkoutWhatsAppBtn = document.getElementById("checkoutWhatsAppBtn");
+  const closeCheckoutBtn = document.getElementById("closeCheckoutModalBtn");
+  const checkoutModal = document.getElementById("checkoutModal");
 
   if (checkoutWhatsAppBtn) {
     checkoutWhatsAppBtn.addEventListener("click", checkoutViaWhatsApp);
   }
 
   if (proceedBtn) {
-    proceedBtn.addEventListener("click", () => {
-      if (state.cart.length === 0) {
-        showToast("Il tuo carrello è vuoto!", "⚠️");
-        return;
-      }
-      const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      alert(`🎉 Ordine Simulato con Successo!\n\nTotale: ${formatPrice(subtotal)}\nGrazie per aver scelto CARD SAS. Puoi anche confermare l'ordine direttamente via WhatsApp!`);
+    proceedBtn.addEventListener("click", openCheckoutModal);
+  }
+
+  if (closeCheckoutBtn) {
+    closeCheckoutBtn.addEventListener("click", closeCheckoutModal);
+  }
+
+  if (checkoutModal) {
+    checkoutModal.addEventListener("click", (e) => {
+      if (e.target.id === "checkoutModal") closeCheckoutModal();
     });
   }
+
+  bindCheckoutFormEvents();
 }
 
 // ===================================================================

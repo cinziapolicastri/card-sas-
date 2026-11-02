@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=8">
 </head>
 <body>
@@ -302,6 +302,195 @@
     </div>
   </div>
 
+  <!-- Complete Checkout Modal (Indirizzo di Consegna + Carta / PayPal / Apple Pay / Google Pay) -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-container checkout-modal-container">
+      <button class="modal-close-btn" id="closeCheckoutModalBtn" aria-label="Chiudi checkout">&times;</button>
+      <div class="modal-body" id="checkoutModalBody">
+        <div class="checkout-header">
+          <span class="sub-heading">🔒 Pagamento Criptato SSL 256-bit</span>
+          <h2>Completa il Tuo Ordine</h2>
+        </div>
+
+        <form id="checkoutForm" class="checkout-layout">
+          <!-- Left Column: Shipping Address + Payment Method -->
+          <div class="checkout-main-col">
+            <!-- Step 1: Shipping Address -->
+            <div class="checkout-box">
+              <h3 class="checkout-step-title"><span>1</span> Indirizzo di Consegna</h3>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="shipFirstName">Nome *</label>
+                  <input type="text" id="shipFirstName" placeholder="Es. Giulia" required>
+                </div>
+                <div class="form-group">
+                  <label for="shipLastName">Cognome *</label>
+                  <input type="text" id="shipLastName" placeholder="Es. Rossi" required>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="shipEmail">Email per ricevuta e tracking *</label>
+                  <input type="email" id="shipEmail" placeholder="giulia.rossi@email.it" required>
+                </div>
+                <div class="form-group">
+                  <label for="shipPhone">Telefono (per il corriere) *</label>
+                  <input type="tel" id="shipPhone" placeholder="+39 340 1234567" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="shipAddress">Indirizzo e Numero Civico *</label>
+                <input type="text" id="shipAddress" placeholder="Via Roma 24, Scala B" required>
+              </div>
+
+              <div class="form-grid-3">
+                <div class="form-group">
+                  <label for="shipCity">Città *</label>
+                  <input type="text" id="shipCity" placeholder="Milano" required>
+                </div>
+                <div class="form-group">
+                  <label for="shipProvince">Provincia *</label>
+                  <input type="text" id="shipProvince" placeholder="MI" maxlength="2" required>
+                </div>
+                <div class="form-group">
+                  <label for="shipZip">CAP *</label>
+                  <input type="text" id="shipZip" placeholder="20121" pattern="[0-9]{5}" maxlength="5" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="shipNotes">Note per il corriere o messaggio regalo (opzionale)</label>
+                <input type="text" id="shipNotes" placeholder="Es. Citofono Rossi, confezione regalo...">
+              </div>
+            </div>
+
+            <!-- Step 2: Payment Method -->
+            <div class="checkout-box">
+              <h3 class="checkout-step-title"><span>2</span> Metodo di Pagamento</h3>
+
+              <div class="payment-methods-tabs" id="paymentMethodsTabs">
+                <label class="payment-tab active" data-method="card">
+                  <input type="radio" name="paymentMethod" value="card" checked>
+                  <span class="pay-tab-icon">💳</span>
+                  <span class="pay-tab-label">Carta di Credito / Debito</span>
+                </label>
+
+                <label class="payment-tab" data-method="paypal">
+                  <input type="radio" name="paymentMethod" value="paypal">
+                  <span class="pay-tab-icon">🅿️</span>
+                  <span class="pay-tab-label">PayPal</span>
+                </label>
+
+                <label class="payment-tab" data-method="apple-pay">
+                  <input type="radio" name="paymentMethod" value="apple-pay">
+                  <span class="pay-tab-icon">🍎</span>
+                  <span class="pay-tab-label">Apple Pay</span>
+                </label>
+
+                <label class="payment-tab" data-method="google-pay">
+                  <input type="radio" name="paymentMethod" value="google-pay">
+                  <span class="pay-tab-icon">🤖</span>
+                  <span class="pay-tab-label">Google Pay</span>
+                </label>
+              </div>
+
+              <!-- Credit Card Panel -->
+              <div class="payment-panel active" id="panel-card">
+                <div class="card-brands-row">
+                  <span>Circuiti accettati:</span>
+                  <div class="card-brand-pills">
+                    <span>VISA</span>
+                    <span>Mastercard</span>
+                    <span>Postepay</span>
+                    <span>Amex</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cardName">Intestatario Carta *</label>
+                  <input type="text" id="cardName" placeholder="GIULIA ROSSI">
+                </div>
+                <div class="form-group">
+                  <label for="cardNumber">Numero Carta *</label>
+                  <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="cardExpiry">Scadenza (MM/AA) *</label>
+                    <input type="text" id="cardExpiry" placeholder="08/28" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="cardCvc">Codice CVV / CVC *</label>
+                    <input type="password" id="cardCvc" placeholder="123" maxlength="4" inputmode="numeric">
+                  </div>
+                </div>
+              </div>
+
+              <!-- PayPal Panel -->
+              <div class="payment-panel" id="panel-paypal">
+                <div class="wallet-info-box paypal-box">
+                  <strong>Paga in sicurezza con PayPal</strong>
+                  <p>Verrai reindirizzato a PayPal per completare il pagamento in 1 clic o scegliere <strong>Paga in 3 rate senza interessi</strong>.</p>
+                </div>
+              </div>
+
+              <!-- Apple Pay Panel -->
+              <div class="payment-panel" id="panel-apple-pay">
+                <div class="wallet-info-box apple-box">
+                  <strong> pagamento rapido con  Pay</strong>
+                  <p>Conferma l'acquisto istantaneamente con Touch ID o Face ID tramite il tuo Apple Wallet.</p>
+                </div>
+              </div>
+
+              <!-- Google Pay Panel -->
+              <div class="payment-panel" id="panel-google-pay">
+                <div class="wallet-info-box google-box">
+                  <strong>Pagamento rapido con Google Pay</strong>
+                  <p>Completa l'ordine in modo sicuro usando le carte salvate nel tuo account Google.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Order Summary -->
+          <div class="checkout-summary-col">
+            <div class="checkout-summary-card">
+              <h3>Riepilogo Ordine</h3>
+              <div class="checkout-items-list" id="checkoutSummaryItems">
+                <!-- Injected via JS -->
+              </div>
+
+              <div class="checkout-totals">
+                <div class="checkout-row">
+                  <span>Subtotale articoli</span>
+                  <span id="checkoutSubtotal">0,00 €</span>
+                </div>
+                <div class="checkout-row">
+                  <span>Spedizione Corriere Espresso (24/48h)</span>
+                  <span id="checkoutShipping">6,90 €</span>
+                </div>
+                <div class="checkout-divider"></div>
+                <div class="checkout-row checkout-grand-total">
+                  <span>Totale da Pagare</span>
+                  <strong id="checkoutTotal">0,00 €</strong>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block checkout-pay-btn" id="submitPaymentBtn">
+                🔒 Paga Ora con Carta
+              </button>
+
+              <p class="checkout-security-note">
+                🛡️ Protezione acquisti inclusa • Spedizione tracciata in 24/48h
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Wishlist Drawer -->
   <div class="drawer-overlay" id="wishlistOverlay"></div>
   <aside class="drawer" id="wishlistDrawer">
@@ -353,6 +542,6 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>
